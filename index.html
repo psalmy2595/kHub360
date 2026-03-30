@@ -3,118 +3,1083 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name='impact-site-verification' value='05b236fd-3ef1-4fc3-8230-9639de686cb3' />
-  <title>KHub360 - Free & Discounted Courses</title>
- <link rel="icon" type="image/png" href="logo.png">
+  <meta name='impact-site-verification' value='05b236fd-3ef1-4fc3-8230-9639de686cb3' />
+  <title>KHub360 – Free & Discounted Udemy Courses Daily</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --bg: #080c14;
+      --surface: #0e1623;
+      --card: #111827;
+      --border: rgba(255,255,255,0.07);
+      --green: #00e87a;
+      --green-dim: rgba(0,232,122,0.12);
+      --green-glow: rgba(0,232,122,0.35);
+      --yellow: #fbbf24;
+      --blue: #38bdf8;
+      --red: #f87171;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --radius: 14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #0f172a;
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img { width: 34px; height: 34px; border-radius: 8px; }
+    .nav-logo span {
+      font-weight: 800;
+      font-size: 1.15rem;
       color: #fff;
+      letter-spacing: -0.5px;
     }
+    .nav-logo .badge {
+      font-size: 0.6rem;
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--green);
+      color: #000 !important;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.88; }
 
-    header {
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      padding: 90px 20px 70px;
       text-align: center;
-      padding: 40px 20px;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(0,232,122,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-dim);
+      border: 1px solid rgba(0,232,122,0.25);
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .pulse-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -1.5px;
+      color: #fff;
+      max-width: 720px;
+      margin: 0 auto 20px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 .accent { color: var(--green); }
+    .hero p {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      font-weight: 300;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 13px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px var(--green-glow);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px var(--green-glow); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 60px auto 0;
+      max-width: 680px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+    .stat {
+      flex: 1;
+      min-width: 140px;
+      padding: 20px 24px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -1px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 3px;
+      font-weight: 500;
     }
 
-    .logo {
-      max-width: 120px;
-      margin-bottom: 15px;
+    /* ─── SECTION HEADER ─── */
+    .section { padding: 70px 20px; position: relative; z-index: 1; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 960px;
+      margin: 0 auto 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .section-title span { color: var(--green); }
+    .see-all {
+      font-size: 0.82rem;
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .see-all:hover { text-decoration: underline; }
+
+    /* ─── FILTER TABS ─── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 960px;
+      margin: 0 auto 28px;
+    }
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Sora', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--green-dim);
+      border-color: rgba(0,232,122,0.3);
+      color: var(--green);
     }
 
-    header h1 {
-      font-size: 2.2rem;
+    /* ─── COURSE GRID ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ─── COURSE CARD ─── */
+    .course-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.5s ease both;
+    }
+    .course-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,232,122,0.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .card-thumb {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+    }
+    .card-thumb-bg {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+    }
+    .card-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--green);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .card-badge.hot { background: var(--yellow); }
+    .card-badge.new { background: var(--blue); color: #000; }
+    .card-timer {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: var(--yellow);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+    .card-category {
+      font-size: 0.68rem;
+      color: var(--green);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      flex: 1;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .card-rating { color: var(--yellow); }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .price-free {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--green);
+      font-size: 1rem;
+    }
+    .price-old {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: line-through;
+      margin-left: 6px;
+    }
+    .enroll-btn {
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(0,232,122,0.25);
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+    }
+    .enroll-btn:hover { background: rgba(0,232,122,0.22); }
+
+    /* ─── ABOUT SECTION ─── */
+    .about-section {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .about-text h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .about-text h2 span { color: var(--green); }
+    .about-text p {
+      color: #94a3b8;
+      line-height: 1.75;
+      font-size: 0.93rem;
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+    .about-perks { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    .perk {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.87rem;
+      color: #cbd5e1;
+    }
+    .perk-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green-dim);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .perk-text strong { display: block; font-weight: 700; color: #e2e8f0; margin-bottom: 2px; }
+
+    .about-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .about-card-icon { font-size: 1.8rem; }
+    .about-card-text strong { display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 2px; }
+    .about-card-text span { font-size: 0.78rem; color: var(--muted); }
+
+    /* ─── COMING SOON BANNER ─── */
+    .coming-soon {
+      max-width: 960px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #0d1f2d 0%, #0e1a14 100%);
+      border: 1px solid rgba(0,232,122,0.2);
+      border-radius: 20px;
+      padding: 52px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .coming-soon::before {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(0,232,122,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .coming-soon::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cs-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid rgba(56,189,248,0.25);
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 22px;
+      letter-spacing: 0.5px;
+    }
+    .coming-soon h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+    .coming-soon h2 .hl { color: var(--green); }
+    .coming-soon p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .cs-features {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .cs-feature {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    .notify-form {
+      display: flex;
+      gap: 10px;
+      max-width: 420px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .notify-input {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 18px;
+      color: #fff;
+      font-size: 0.88rem;
+      font-family: 'Sora', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .notify-input::placeholder { color: var(--muted); }
+    .notify-input:focus { border-color: rgba(0,232,122,0.4); }
+    .notify-btn {
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: opacity 0.2s;
+    }
+    .notify-btn:hover { opacity: 0.88; }
+
+    /* ─── TELEGRAM CTA ─── */
+    .tg-cta {
+      max-width: 960px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #0a1628 0%, #091220 100%);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 20px;
+      padding: 48px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .tg-left { flex: 1; min-width: 260px; }
+    .tg-left .tg-icon { font-size: 2.6rem; margin-bottom: 12px; }
+    .tg-left h2 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
       margin-bottom: 10px;
     }
-
-    header p {
-      color: #cbd5f5;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 20px;
-      background: #22c55e;
-      color: #000;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-    }
-
-    .card a {
-      color: #22c55e;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
+    .tg-left p {
       color: #94a3b8;
       font-size: 0.9rem;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+    .tg-right { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+    .tg-stat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .tg-stat-icon { font-size: 1.1rem; }
+    .join-tg-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #229ED9;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 4px;
+    }
+    .join-tg-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--green); }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* stagger cards */
+    .course-card:nth-child(1) { animation-delay: 0.05s; }
+    .course-card:nth-child(2) { animation-delay: 0.12s; }
+    .course-card:nth-child(3) { animation-delay: 0.19s; }
+    .course-card:nth-child(4) { animation-delay: 0.26s; }
+    .course-card:nth-child(5) { animation-delay: 0.33s; }
+    .course-card:nth-child(6) { animation-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      nav { padding: 12px 18px; }
+      .nav-links { gap: 14px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .about-section { grid-template-columns: 1fr; padding: 28px 22px; }
+      .tg-cta { padding: 32px 22px; }
+      .coming-soon { padding: 36px 22px; }
+      .hero h1 { font-size: 2rem; }
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <!-- 🔥 LOGO HERE -->
-    <img src="logo.png" alt="KHub360 Logo" class="logo">
-
-    <h1>KHub360</h1>
-    <p>Get Free & Discounted Online Courses Daily</p>
-
-    <a href="https://t.me/Khub360" class="btn">
-      Join Telegram Channel
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="logo.png" alt="KHub360" onerror="this.style.display='none'">
+      <span>KHub360</span>
+      <span class="badge">FREE</span>
     </a>
+    <div class="nav-links">
+      <a href="#courses">Courses</a>
+      <a href="#about">About</a>
+      <a href="#community">Community</a>
+      <a href="https://t.me/Khub360" class="nav-cta" target="_blank">Join Telegram ↗</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-tag">
+      <span class="pulse-dot"></span>
+      New free courses added daily
+    </div>
+    <h1>Learn <span class="accent">anything</span> for free.<br>Level up your career.</h1>
+    <p>Handpicked FREE & discounted Udemy courses in programming, marketing, personal development, and more — updated every day.</p>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-primary">
+        🎓 Browse Free Courses
+      </a>
+      <a href="https://t.me/Khub360" target="_blank" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+        Join Telegram Channel
+      </a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Free Courses</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Daily</div>
+        <div class="stat-label">New Additions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Free to Access</div>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
-
-    <div class="card">
-      <h3>🔥 Web Development Bootcamp</h3>
-      <p>Learn HTML, CSS, JavaScript from scratch</p>
-      <a href="#">View Course</a>
+  <!-- ─── COURSES ─── -->
+  <section class="section" id="courses">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Latest <span>Free</span> Courses</h2>
+      <a href="https://t.me/Khub360" target="_blank" class="see-all">See all on Telegram →</a>
     </div>
 
-    <div class="card">
-      <h3>🤖 Python for Beginners</h3>
-      <p>Start coding and build real projects</p>
-      <a href="#">View Course</a>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterCards(this,'all')">All</button>
+      <button class="filter-btn" onclick="filterCards(this,'dev')">Development</button>
+      <button class="filter-btn" onclick="filterCards(this,'marketing')">Marketing</button>
+      <button class="filter-btn" onclick="filterCards(this,'security')">Security</button>
+      <button class="filter-btn" onclick="filterCards(this,'business')">Business</button>
+      <button class="filter-btn" onclick="filterCards(this,'design')">Design</button>
     </div>
 
-    <div class="card">
-      <h3>🔐 Cybersecurity Basics</h3>
-      <p>Understand hacking, security & protection</p>
-      <a href="#">View Course</a>
+    <div class="grid" id="courseGrid">
+
+      <div class="course-card" data-cat="dev">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#1a2e4a,#0d1b2a)">
+          💻
+          <span class="card-badge">FREE</span>
+          <span class="card-timer">⏰ 23:14:07</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Web Development</div>
+          <div class="card-title">The Complete Web Development Bootcamp 2025</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★★</span>
+            <span>4.8</span>
+            <span>·</span>
+            <span>42,000+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$84.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card" data-cat="dev">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#1a2f1a,#0d1a0e)">
+          🐍
+          <span class="card-badge hot">HOT</span>
+          <span class="card-timer">⏰ 11:45:22</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Programming</div>
+          <div class="card-title">Python for Beginners — Build Real Projects Fast</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★★</span>
+            <span>4.7</span>
+            <span>·</span>
+            <span>28,500+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$74.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card" data-cat="security">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#1f1a2e,#110f1e)">
+          🔐
+          <span class="card-badge new">NEW</span>
+          <span class="card-timer">⏰ 06:30:00</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Cybersecurity</div>
+          <div class="card-title">Ethical Hacking & Cybersecurity Fundamentals</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★☆</span>
+            <span>4.5</span>
+            <span>·</span>
+            <span>18,000+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$99.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card" data-cat="marketing">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#2a1a0e,#1a0d06)">
+          📣
+          <span class="card-badge hot">HOT</span>
+          <span class="card-timer">⏰ 18:00:00</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Digital Marketing</div>
+          <div class="card-title">Digital Marketing Masterclass — Grow Any Business</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★★</span>
+            <span>4.9</span>
+            <span>·</span>
+            <span>55,000+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$89.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card" data-cat="business">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#1a2a2a,#0d1818)">
+          📊
+          <span class="card-badge">FREE</span>
+          <span class="card-timer">⏰ 14:22:11</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Business</div>
+          <div class="card-title">MBA in a Box: Business Lessons from a CEO</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★★</span>
+            <span>4.8</span>
+            <span>·</span>
+            <span>31,000+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$69.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card" data-cat="design">
+        <div class="card-thumb-bg" style="background:linear-gradient(135deg,#2a1a2a,#180d18)">
+          🎨
+          <span class="card-badge new">NEW</span>
+          <span class="card-timer">⏰ 20:10:05</span>
+        </div>
+        <div class="card-body">
+          <div class="card-category">UI/UX Design</div>
+          <div class="card-title">UI/UX Design Bootcamp — Figma to Product</div>
+          <div class="card-meta">
+            <span class="card-rating">★★★★☆</span>
+            <span>4.6</span>
+            <span>·</span>
+            <span>21,200+ students</span>
+          </div>
+          <div class="card-footer">
+            <span><span class="price-free">FREE</span><span class="price-old">$79.99</span></span>
+            <a href="https://t.me/Khub360" target="_blank" class="enroll-btn">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-  </div>
+    <p style="text-align:center;margin-top:32px;color:var(--muted);font-size:0.85rem;">
+      ⚠️ Coupons are limited — <strong style="color:var(--yellow)">enroll fast before they expire!</strong>
+      <a href="https://t.me/Khub360" target="_blank" style="color:var(--green);text-decoration:none;margin-left:6px;">Get all courses on Telegram →</a>
+    </p>
+  </section>
 
+  <!-- ─── ABOUT ─── -->
+  <section class="section" id="about">
+    <div class="about-section">
+      <div class="about-text">
+        <h2>Learn more.<br><span>Spend less.</span> Grow faster.</h2>
+        <p>KHub360 is your daily source of handpicked FREE and heavily discounted Udemy courses. We curate the best coupons so you never miss a deal.</p>
+        <p>Whether you're leveling up in programming, breaking into marketing, or working on personal development — we've got a course for you, always free.</p>
+
+        <div class="about-perks">
+          <div class="perk">
+            <div class="perk-icon">🎓</div>
+            <div class="perk-text">
+              <strong>Daily Free Courses</strong>
+              Programming, Marketing, Personal Development & more
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">⚡</div>
+            <div class="perk-text">
+              <strong>Limited-Time Coupons</strong>
+              Act fast — coupons expire within hours of posting
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🚀</div>
+            <div class="perk-text">
+              <strong>More Coming Soon</strong>
+              Webinars, learning tools & exclusive discounts on the way
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-card-icon">📚</div>
+          <div class="about-card-text">
+            <strong>Curated Courses</strong>
+            <span>Only quality courses make the cut</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔔</div>
+          <div class="about-card-text">
+            <strong>Instant Notifications</strong>
+            <span>Be first in line on Telegram</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">💡</div>
+          <div class="about-card-text">
+            <strong>All Skill Levels</strong>
+            <span>Beginner to advanced tracks</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🌍</div>
+          <div class="about-card-text">
+            <strong>Global Community</strong>
+            <span>Learners from all over the world</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TELEGRAM CTA ─── -->
+  <section class="section" id="community" style="padding-top:0">
+    <div class="tg-cta">
+      <div class="tg-left">
+        <div class="tg-icon">📲</div>
+        <h2>Join the KHub360<br>Telegram Channel</h2>
+        <p>Get free Udemy courses dropped in your pocket every single day. Limited coupons — be the first to grab them. Join thousands of learners already in the community.</p>
+        <a href="https://t.me/Khub360" target="_blank" class="join-tg-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+          Join @Khub360 Free
+        </a>
+      </div>
+      <div class="tg-right">
+        <div class="tg-stat"><span class="tg-stat-icon">🎓</span> Daily FREE Udemy courses</div>
+        <div class="tg-stat"><span class="tg-stat-icon">💬</span> Programming · Marketing · Self Dev</div>
+        <div class="tg-stat"><span class="tg-stat-icon">⚠️</span> Limited coupons — enroll fast</div>
+        <div class="tg-stat"><span class="tg-stat-icon">💡</span> Webinars & tools coming soon</div>
+        <div class="tg-stat"><span class="tg-stat-icon">🌱</span> Join, learn, grow</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── COMING SOON ─── -->
+  <section class="section" style="padding-top:0">
+    <div class="coming-soon">
+      <div class="cs-tag">🚀 Coming Soon</div>
+      <h2>The Official <span class="hl">KHub360</span> Platform<br>is on its way</h2>
+      <p>We're building a full community and website experience — with course tracking, personal dashboards, webinars, and exclusive discounts. Be the first to know when we launch.</p>
+
+      <div class="cs-features">
+        <div class="cs-feature">🌐 Full Website</div>
+        <div class="cs-feature">👥 Community Forum</div>
+        <div class="cs-feature">📅 Live Webinars</div>
+        <div class="cs-feature">🏆 Learning Streaks</div>
+        <div class="cs-feature">🎁 Exclusive Deals</div>
+        <div class="cs-feature">📊 Progress Tracking</div>
+      </div>
+
+      <div class="notify-form">
+        <input class="notify-input" type="email" placeholder="Enter your email to get notified" id="notifyEmail">
+        <button class="notify-btn" onclick="handleNotify()">Notify Me</button>
+      </div>
+      <p id="notifyMsg" style="margin-top:14px;font-size:0.82rem;color:var(--green);display:none;">✅ You're on the list! We'll notify you at launch.</p>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
   <footer>
-    © 2026 KHub360 | Helping you learn for less
+    <div class="footer-logo">KHub<span>360</span></div>
+    <p>Helping you learn for less — every single day</p>
+    <div class="footer-links">
+      <a href="#courses">Courses</a>
+      <a href="#about">About</a>
+      <a href="https://t.me/Khub360" target="_blank">Telegram</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <p>© 2026 KHub360 · Free Udemy Courses Daily · Made with ❤️ for learners everywhere</p>
   </footer>
+
+  <script>
+    // ─── FILTER ───
+    function filterCards(btn, cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+      });
+    }
+
+    // ─── LIVE COUNTDOWN ───
+    function updateTimers() {
+      document.querySelectorAll('.card-timer').forEach(el => {
+        const parts = el.textContent.replace('⏰ ','').split(':').map(Number);
+        let [h,m,s] = parts;
+        s--;
+        if (s < 0) { s = 59; m--; }
+        if (m < 0) { m = 59; h--; }
+        if (h < 0) { h = 0; m = 0; s = 0; }
+        el.textContent = `⏰ ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      });
+    }
+    setInterval(updateTimers, 1000);
+
+    // ─── NOTIFY ───
+    function handleNotify() {
+      const email = document.getElementById('notifyEmail').value.trim();
+      if (!email || !email.includes('@')) return;
+      document.getElementById('notifyMsg').style.display = 'block';
+      document.getElementById('notifyEmail').value = '';
+    }
+  </script>
 
 </body>
 </html>
